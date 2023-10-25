@@ -1,0 +1,11 @@
+scripts/debug.sh
+.idea
+scripts/save_bert_vocab.sh
+data/vocab_word_idx/bert_coco_word_idx.json
+model/fusion/inter_fusion.py
+vis.py
+test_ensemble.py
+configs/test_ensemble.yaml
+scripts/test_ensemble.sh
+data/pretrained_weight/
+/vis/

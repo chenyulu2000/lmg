@@ -1,0 +1,57 @@
+# dataset reader arguments
+dataset:
+  data_name: 'coco' # f30k or coco
+  coco_data_dir: '/home/data/image_text_align_MSCOCO/'
+  f30k_data_dir: '/home/data/image_text_align_Flickr30K/'
+
+  test_coco_all: True
+  fold5: True
+
+  test_image_path: 'test_ims.npy'
+  testall_image_path: 'testall_ims.npy'
+  test_cap_path: 'test_caps.txt'
+  testall_cap_path: 'testall_caps.txt'
+
+  text_type: 'glove' # glove or bert
+  vocab_word_idx_path: 'data/vocab_word_idx/glove_f30k_word_idx.json'
+  glove_path: 'data/pretrained_weight/glove/glove_840B_f30k_precomp.json.pkl'
+  bert_path: 'data/pretrained_weight/bert/bert-base'
+
+# model related arguments
+model:
+  num_layers: 1 # number of RNN layers
+  use_bi_rnn: True
+
+  word_dim: 300
+  img_dim: 2048
+  embed_size: 1024 # dimenson of the joint embedding
+
+  grad_clip: 2.0
+
+  no_imgnorm: False
+  no_txtnorm: False
+
+  lambda_softmax: 20.0 # attention softmax temperature
+
+  sf_stack: [ 'F' ]
+  alpha: 2.0 # initial penalty parameter
+  multi_grain: True
+  using_ff_residual: False
+
+# optimization related arguments
+solver:
+  test_batch_size: 256 # for all gpus
+
+# checkpointing related arguments
+checkpointing:
+  load_path: '/home/luchenyu/mlf/coco_f0.05_521.2.pth'
+  phase: 'test'
+  selected_using_intra_info: True
+  selected_thres_safe: 0.1 # optimal learning boundary
+
+# experiment reproducibility related arguments
+reproducibility:
+  workers: 4 # number of cpu workers for dataloader
+  pin_memory: True # load the whole dataset and pre-extracted image features in memory, use only in presence of large ram, at least few tens of GBs
+  gpu_ids:
+    - 4

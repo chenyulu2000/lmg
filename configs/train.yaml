@@ -1,0 +1,60 @@
+# dataset reader arguments
+dataset:
+  data_name: 'f30k' # f30k or coco
+  coco_data_dir: '/home/data/image_text_align_MSCOCO/'
+  f30k_data_dir: '/home/data/image_text_align_Flickr30K/'
+
+  train_image_path: 'train_ims.npy'
+  train_cap_path: 'train_caps.txt'
+
+  dev_image_path: 'dev_ims.npy'
+  dev_cap_path: 'dev_caps.txt'
+
+  # the parameters of bert are frozen, change it in components/solver.py
+  text_type: 'glove' # glove or bert
+  vocab_word_idx_path: 'data/vocab_word_idx/glove_f30k_word_idx.json'
+  glove_path: 'data/pretrained_weight/glove/glove_840B_f30k_precomp.json.pkl'
+  bert_path: 'data/pretrained_weight/bert/bert-base'
+
+# model related arguments
+model:
+  num_layers: 1 # number of RNN layers
+  use_bi_rnn: True
+
+  margin: 0.2 # rank loss margin
+
+  word_dim: 300
+  img_dim: 2048
+  embed_size: 1024 # dimenson of the joint embedding
+
+  grad_clip: 2.0
+
+  no_imgnorm: False
+  no_txtnorm: False
+
+  lambda_softmax: 20.0 # attention softmax temperature
+
+  max_violation: True
+  sf_stack: [ 'F' ] # F A C M
+  thres: 0 # optimal learning boundary
+  thres_safe: 0 # optimal learning boundary
+  alpha: 2.0 # initial penalty parameter
+  multi_grain: True
+  using_intra_info: True
+  global_weight: 0.5 # 1 denote balance between global and local
+  using_ff_residual: True
+
+# optimization related arguments
+solver:
+  train_batch_size: 32 # for each gpu
+  dev_batch_size: 32 # for all gpus
+  num_epochs: 1
+  learning_rate: 0.0005
+  lr_update: 10
+
+# checkpointing related arguments
+checkpointing:
+  phase: 'train'
+reproducibility:
+  workers: 4
+  pin_memory: True
